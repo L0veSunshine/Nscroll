@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="nscroll.js"></script>
+</head>
+<body>
+<span>股市账户还剩</span><div id="main"></div><span>元</span>
+</body>
+<script>
+    let init = 131400;
+    let ns = new Nscroll('#main', 8, 80);
+    ns.show(init);
+    let id = setInterval(() => {
+        let s = Math.floor(Math.random() * 2) + 1;
+        if (s === 1) {
+            init += Math.floor(Math.random() * 10000);
+        } else {
+            init -= Math.floor(Math.random() * 10000);
+        }
+        // init -= Math.floor(Math.random() * 100);
+        ns.show(init);
+        console.log(init)
+    }, 3000);
+
+</script>
+<style>
+    .num{
+        color: #fe001d;
+    }
+</style>
+</html>
