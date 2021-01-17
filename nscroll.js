@@ -73,8 +73,10 @@ class Nscroll {
         } else {
             that.rollUp = curValue < num;
         }
+        let nums = new Array(that.width - (curValue + '').length + 1).join('0') + curValue;
+        let maxTime = 0;
         elements.forEach((item, idx) => {
-                let currentNum = parseInt(item.querySelector('div:last-child').innerHTML);
+                let currentNum = parseInt(nums[idx]);
                 let goalNum = parseInt(numStr[idx]);
                 let gap = 0;
                 let tranStr = '';
@@ -112,11 +114,13 @@ class Nscroll {
                         }
                     }
                 }
+                let rollTime = that.getRandom();
+                maxTime = Math.max(maxTime, rollTime);
                 if (that.rollUp) {
                     this.initUp(item, tranStr);
 
                     function up() {
-                        item.style.cssText += '-webkit-transition-duration:' + that.getRandom() + 's;' +
+                        item.style.cssText += '-webkit-transition-duration:' + rollTime + 's;' +
                             '-webkit-transform:translateY(-' + that.srollheight * gap + 'px)';
                         item.style.cssText += '-webkit-transition-timing-function:ease-in-out';
                     }
@@ -126,18 +130,18 @@ class Nscroll {
                     this.initDown(item, tranStr, gap);
 
                     function down() {
-                        item.style.cssText += '-webkit-transition-duration:' + that.getRandom() + 's;' +
+                        item.style.cssText += '-webkit-transition-duration:' + rollTime + 's;' +
                             '-webkit-transform:translateY(0)';
                         item.style.cssText += '-webkit-transition-timing-function:ease-in-out';
                     }
 
                     setTimeout(down, 100);
-                    setTimeout(() => {
-                        that.updateDiv(numStr.toString())
-                    }, 1600)
                 }
             }
         );
+        setTimeout(() => {
+            that.updateDiv(numStr.toString())
+        }, maxTime * 1000 + 100);
         that.originValue = num;
     }
 
